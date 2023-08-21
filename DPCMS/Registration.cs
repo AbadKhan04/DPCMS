@@ -68,24 +68,6 @@ namespace DPCMS
                 MessageBox.Show(ex.Message);
             }
         }
-    
-
-
-
-
-
-
-
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Registration_Load(object sender, EventArgs e)
-        {
-
-        }
 
         private void comboBox_SelectedIndexChanged(object sender, EventArgs e)
         {

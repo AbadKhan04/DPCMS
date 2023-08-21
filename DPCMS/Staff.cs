@@ -15,18 +15,13 @@ namespace DPCMS
         public Staff()
         {
             InitializeComponent();
-        }
-        //int user_id;
-        //string username;
-
-       
+        }      
 
         private void Staff_Load(object sender, EventArgs e)
         {
 
         }
 
-       
         public void openform()
         {
             this.Show();
@@ -38,7 +33,7 @@ namespace DPCMS
         }
 
 
-        //APPLYING Bridge Pattern (structural pattern) for calling managers and subordinates
+        //APPLYING Bridge Pattern (structural pattern) for calling managers and driver
         //separates the abstraction hierarchy and
         //the implementation hierarchy into two different layers
         private void button1_Click(object sender, EventArgs e)
@@ -50,7 +45,6 @@ namespace DPCMS
 
         private void button2_Click(object sender, EventArgs e)
         {
-            //Worker driver = new Employ(new taxi());
             taxi driver = new taxi();
             driver.openform();
         }

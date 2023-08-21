@@ -90,7 +90,7 @@
             this.label3.Size = new System.Drawing.Size(443, 31);
             this.label3.TabIndex = 4;
             this.label3.Text = "CAB MANAGEMENT SYSTEM";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
+            //this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // button1
             // 
@@ -148,7 +148,7 @@
             this.Controls.Add(this.textBox1);
             this.Name = "Form1";
             this.Text = "LOGIN";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            //this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -167,24 +167,6 @@ namespace DPCMS
 
         //    }
 
-
-
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnSignup_Click(object sender, EventArgs e)
         {
             Registration registration = new Registration();
