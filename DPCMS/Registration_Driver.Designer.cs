@@ -124,7 +124,7 @@
             this.label6.TabIndex = 19;
             this.label6.Text = "Phone Number:";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label6.Click += new System.EventHandler(this.label6_Click);
+            //this.label6.Click += new System.EventHandler(this.label6_Click);
             // 
             // label5
             // 
@@ -140,7 +140,7 @@
             this.label5.TabIndex = 18;
             this.label5.Text = "CNIC: ";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label5.Click += new System.EventHandler(this.label5_Click);
+            //this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // label4
             // 

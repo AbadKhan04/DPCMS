@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace DPCMS
 {
-    class DPCMS_CONNECTION
+    public class DPCMS_CONNECTION
     {
         //singleton
         private static DPCMS_CONNECTION inst = new DPCMS_CONNECTION();
