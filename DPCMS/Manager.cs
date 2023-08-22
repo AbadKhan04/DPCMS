@@ -84,7 +84,8 @@ namespace DPCMS
         {
             this.Show();
         }
-
+        //APPLYING FACADE PATTERN (structural pattern) TO INSERT UPDATE AND DELETE
+        //therefore it hides the complexities of the system from the client
         private void btnInsert_Click(object sender, EventArgs e)
         {
             try

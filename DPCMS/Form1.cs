@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DPCMS;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,17 +9,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace DPCMS
 {
     public partial class Form1 : Form
     {
+        private IUserFactory userFactory;
+        private IDriverFactory driverFactory;
         public Form1()
         {
             InitializeComponent();
 
             connection.insert_Connection_string("server=DESKTOP-NAO1922;Database=DP_Cap;Integrated Security=True");
-
+            userFactory = new UserFactory(connection);
+            driverFactory = new DriverFactory(connection);
         }
 
         //APPLYING SINGLETON PATTERNED (Creational pattern) BASED CONNECTION CLASS
@@ -33,73 +38,40 @@ namespace DPCMS
 
         private void button2_Click(object sender, EventArgs e)
         {
-
-
-            //dont take null
-            //if (!string.IsNullOrWhiteSpace(loginInput) && !string.IsNullOrWhiteSpace(password))
-            //{
-            //    bool loggedIn = false;
-            //}
-            //else
-            //{
-            //    MessageBox.Show("Please enter both username/email and password.");
-            //}
             try
             {
                 string loginInput = textBox1.Text;
                 string password = textBox2.Text;
 
-                string userSql = "SELECT * FROM user_registration WHERE (username = @loginInput OR email = @loginInput) AND pasword = @pasword";
-                string driverSql = "SELECT * FROM staff_registration WHERE (email = @loginInput) AND pasword = @pasword";
+                IUser loggedInUser = userFactory.CreateUser(loginInput, password);
+                IDriver loggedInDriver = driverFactory.CreateDriver(loginInput, password);
 
-                connection.connect_open();
-                Console.WriteLine("Connected to the database-Form1.");
-
-                using (SqlCommand userCmd = new SqlCommand(userSql, connection.con))
-                using (SqlCommand driverCmd = new SqlCommand(driverSql, connection.con))
+                if (loggedInUser != null)
                 {
-                    userCmd.Parameters.AddWithValue("@loginInput", loginInput);
-                    userCmd.Parameters.AddWithValue("@pasword", password);
+                    this.Hide();
+                    User userForm = new User();
+                    userForm.ShowDialog();
+                }
+                else if (loggedInDriver != null)
+                {
+                    string designation = loggedInDriver.GetDriverDesignation();
 
-                    driverCmd.Parameters.AddWithValue("@loginInput", loginInput);
-                    driverCmd.Parameters.AddWithValue("@pasword", password);
-
-                    using (SqlDataReader userDataReader = userCmd.ExecuteReader())
+                    this.Hide();
+                    if (designation == "Driver")
                     {
-                        if (userDataReader.Read())
-                        {
-                            connection.con.Close();
-                            this.Hide();
-                            User userForm = new User();
-                            userForm.ShowDialog();
-                            return;
-                        }
+                        taxi taxiForm = new taxi();
+                        taxiForm.ShowDialog();
                     }
-                    using (SqlDataReader driverDataReader = driverCmd.ExecuteReader())
+                    else if (designation == "Admin")
                     {
-                        if (driverDataReader.Read())
-                        {
-                            string designation = driverDataReader["designation"].ToString();
-                            connection.con.Close();
-                            this.Hide();
-                            if (designation == "Driver")
-                            {
-                                taxi taxi = new taxi();
-                                taxi.ShowDialog();
-                            }
-                            else if (designation == "Admin")
-                            {
-                                Manager admin = new Manager();
-                                admin.ShowDialog();
-                            }
-
-                            return;
-                        }
+                        Manager adminForm = new Manager();
+                        adminForm.ShowDialog();
                     }
                 }
-
-                connection.con.Close();
-                MessageBox.Show("Invalid login credentials.");
+                else
+                {
+                    MessageBox.Show("Invalid login credentials.");
+                }
             }
             catch (Exception ex)
             {
@@ -107,66 +79,175 @@ namespace DPCMS
             }
         }
 
+        public interface IUserFactory
+        {
+            IUser CreateUser(string loginInput, string password);
+        }
 
-        ////APPLYING FACTORY PATTERN  (Creational pattern) TO GENERATE USERS ,STAFF OR CABI
+        // Interface for driver creation
+        public interface IDriverFactory
+        {
+            IDriver CreateDriver(string loginInput, string password);
+        }
 
-        //String sql = "select * from c_login where username='" + textBox1.Text + "' and pword = '" + textBox2.Text + "'";
+        // Interface for user
+        public interface IUser
+        {
+            // Add any user-specific methods or properties
+            string GetUsername();
+            string GetEmail();
+        }
+
+        // UserImplementation class
+        public class UserImplementation : IUser
+        {
+            private string _username;
+            private string _email;
+
+            public UserImplementation(string username, string email)
+            {
+                _username = username;
+                _email = email;
+            }
+
+            public string GetUsername()
+            {
+                return _username;
+            }
+            public string GetEmail()
+            {
+                return _email;
+            }
+        }
+
+        // Interface for driver
+        public interface IDriver
+        {
+            string GetDriverDesignation();
+        }
+
+        // DriverImplementation class
+        public class DriverImplementation : IDriver
+        {
+            private string _driverDesignation;
+
+            public DriverImplementation(string driverDesignation)
+            {
+                _driverDesignation = driverDesignation;
+            }
+            public string GetDriverDesignation()
+            {
+                return _driverDesignation;
+            }
+
+            // ... other properties and methods specific to driver
+        }
 
 
-        //    try
-        //    {
-        //        SqlCommand cmd = new SqlCommand(sql, connection.con);
-        //        SqlDataReader dr = cmd.ExecuteReader();
-        //        LoginFactory lf = new LoginFactory();
+        // User factory implementation
+        public class UserFactory : IUserFactory
+        {
+            private DPCMS_CONNECTION _connection;
 
-        //        if (dr.Read())
-        //        {
-        //            //string j_i = dr["job_id"].ToString();
-        //            int id = Convert.ToInt16(dr["login_id"]);
-        //            string designation = dr["designation"].ToString();
-        //            if (designation == "User")
-        //            {
-        //                login l1 = lf.getLogin(designation);
-        //                l1.openform();
-        //                connection.con.Close();
-        //                this.Hide();
+            public UserFactory(DPCMS_CONNECTION connection)
+            {
+                _connection = connection;
+            }
 
-        //            }
-        //            else if (designation == "Staff")
-        //            {
-        //                login l1 = lf.getLogin(designation);
-        //                l1.openform();
-        //                connection.con.Close();
-        //                this.Hide();
+            public IUser CreateUser(string loginInput, string password)
+            {
+                try
+                {
+                    _connection.connect_open();
+                    Console.WriteLine("Connected to the database-Form1.");
 
-        //            }
-        //            else if (designation == "Cabi")
-        //            {
-        //                login l1 = lf.getLogin(designation);
-        //                l1.openform();
-        //                connection.con.Close();
-        //                this.Hide();
+                    string userSql = "SELECT * FROM user_registration WHERE (username = @loginInput OR email = @loginInput) AND pasword = @pasword";
 
-        //            }
+                    using (SqlCommand userCmd = new SqlCommand(userSql, _connection.con))
+                    {
+                        userCmd.Parameters.AddWithValue("@loginInput", loginInput);
+                        userCmd.Parameters.AddWithValue("@pasword", password);
 
+                        using (SqlDataReader userDataReader = userCmd.ExecuteReader())
+                        {
+                            if (userDataReader.Read())
+                            {
+                                string username = userDataReader["username"].ToString();
+                                string email = userDataReader["email"].ToString();
 
-        //            // dr.Close();
+                                // Create an instance of UserImplementation using retrieved data
+                                return new UserImplementation(username, email);
+                            }
+                            else
+                            {
+                                // User login failed
+                                return null;
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    return null;
+                }
+                finally
+                {
+                    _connection.connect_close();
+                }
+            }
+        }
 
-        //            connection.connect_close();
-        //        }
-        //        else
-        //        {
-        //            MessageBox.Show("YOU USENAME OR PASSWORD IS INCORRECT");
-        //        }
-        //        dr.Close();
+        // Driver factory implementation
+        public class DriverFactory : IDriverFactory
+        {
+            private DPCMS_CONNECTION _connection;
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message);
+            public DriverFactory(DPCMS_CONNECTION connection)
+            {
+                _connection = connection;
+            }
 
-        //    }
+            public IDriver CreateDriver(string loginInput, string password)
+            {
+                try
+                {
+                    _connection.connect_open();
+                    Console.WriteLine("Connected to the database-Form1.");
 
+                    string driverSql = "SELECT * FROM staff_registration WHERE (email = @loginInput) AND pasword = @pasword";
+
+                    using (SqlCommand driverCmd = new SqlCommand(driverSql, _connection.con))
+                    {
+                        driverCmd.Parameters.AddWithValue("@loginInput", loginInput);
+                        driverCmd.Parameters.AddWithValue("@pasword", password);
+
+                        using (SqlDataReader driverDataReader = driverCmd.ExecuteReader())
+                        {
+                            if (driverDataReader.Read())
+                            {
+                                string driverDesignation = driverDataReader["designation"].ToString();
+                                return new DriverImplementation(driverDesignation);
+                            }
+                            else
+                            {
+                                // Driver login failed
+                                return null;
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    return null;
+                }
+                finally
+                {
+                    _connection.connect_close();
+                }
+            }
+        }
         private void btnSignup_Click(object sender, EventArgs e)
         {
             Registration registration = new Registration();
