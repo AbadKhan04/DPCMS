@@ -10,43 +10,88 @@ using System.Windows.Forms;
 
 namespace DPCMS
 {
-    public partial class Staff : Form,login
+    public partial class Staff : Form
     {
+        //APPLYING Bridge Pattern (structural pattern) for calling managers and driver
+        //separates the abstraction hierarchy and
+
         public Staff()
         {
             InitializeComponent();
-        }      
-
-        private void Staff_Load(object sender, EventArgs e)
-        {
-
         }
 
-        public void openform()
+        //Abstraction and Implementor Interfaces:
+        public interface IAbstraction
         {
-            this.Show();
+            void Open();
+        }
+        public interface IImplementor
+        {
+            void OpenForm();
         }
 
-        public void getUserInfo()
+        //Create Concrete Implementors:
+        public class ManagerImplementor : IImplementor
         {
-            throw new NotImplementedException();
+            public void OpenForm()
+            {
+                Manager managerForm = new Manager();
+                managerForm.Show();
+            }
+        }
+        public class DriverImplementor : IImplementor
+        {
+            public void OpenForm()
+            {
+                taxi driverForm = new taxi();
+                driverForm.Show();
+            }
         }
 
+        //Create Concrete Abstractions:
+        public class Employ : IAbstraction
+        {
+            private readonly IImplementor _implementor;
 
-        //APPLYING Bridge Pattern (structural pattern) for calling managers and driver
-        //separates the abstraction hierarchy and
-        //the implementation hierarchy into two different layers
+            public Employ(IImplementor implementor)
+            {
+                _implementor = implementor;
+            }
+
+            public void Open()
+            {
+                _implementor.OpenForm();
+            }
+        }
+
+        public class Taxi : IAbstraction
+        {
+            private readonly IImplementor _implementor;
+
+            public Taxi(IImplementor implementor)
+            {
+                _implementor = implementor;
+            }
+
+            public void Open()
+            {
+                _implementor.OpenForm();
+            }
+        }
+
+        //Abstractions in Your Form:
         private void button1_Click(object sender, EventArgs e)
         {
-            Worker manager = new Employ(new Manager());
-
-            manager.open();
+            IImplementor managerImplementor = new ManagerImplementor();
+            IAbstraction manager = new Employ(managerImplementor);
+            manager.Open();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            taxi driver = new taxi();
-            driver.openform();
+            IImplementor driverImplementor = new DriverImplementor();
+            IAbstraction driver = new Taxi(driverImplementor);
+            driver.Open();
         }
     }
 }

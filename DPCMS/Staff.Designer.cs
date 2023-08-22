@@ -65,7 +65,7 @@
             this.Controls.Add(this.button1);
             this.Name = "Staff";
             this.Text = "Staff";
-            this.Load += new System.EventHandler(this.Staff_Load);
+            //this.Load += new System.EventHandler(this.Staff_Load);
             this.ResumeLayout(false);
 
         }

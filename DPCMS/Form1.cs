@@ -64,8 +64,8 @@ namespace DPCMS
                     }
                     else if (designation == "Admin")
                     {
-                        Manager adminForm = new Manager();
-                        adminForm.ShowDialog();
+                        Staff staffForm = new Staff();
+                        staffForm.ShowDialog();
                     }
                 }
                 else
@@ -95,28 +95,21 @@ namespace DPCMS
         {
             // Add any user-specific methods or properties
             string GetUsername();
-            string GetEmail();
         }
 
         // UserImplementation class
         public class UserImplementation : IUser
         {
             private string _username;
-            private string _email;
 
-            public UserImplementation(string username, string email)
+            public UserImplementation(string username)
             {
                 _username = username;
-                _email = email;
             }
 
             public string GetUsername()
             {
                 return _username;
-            }
-            public string GetEmail()
-            {
-                return _email;
             }
         }
 
@@ -176,7 +169,7 @@ namespace DPCMS
                                 string email = userDataReader["email"].ToString();
 
                                 // Create an instance of UserImplementation using retrieved data
-                                return new UserImplementation(username, email);
+                                return new UserImplementation(username);
                             }
                             else
                             {

@@ -20,6 +20,8 @@ namespace DPCMS
             InitializeComponent();
         }
 
+
+        //APPLYING Command PATTERN (behavioral pattern) to  encapsulate the booking action as a command.   *
         public interface ICommand
         {
             void Execute();
@@ -80,7 +82,6 @@ namespace DPCMS
                 }
             }
         }
-
 
         private void btnride_Click(object sender, EventArgs e)
         {
