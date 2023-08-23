@@ -20,7 +20,6 @@ namespace DPCMS
             InitializeComponent();
             connection.insert_Connection_string("server=DESKTOP-NAO1922;Database=DP_Cap;Integrated Security=True");
         }
-
         private void pb_star5_Click(object sender, EventArgs e)
         {
             pb_star1.Image = Resources.yellow_star;
@@ -29,7 +28,6 @@ namespace DPCMS
             pb_star4.Image = Resources.yellow_star;
             pb_star5.Image = Resources.yellow_star;
         }
-
         private void pb_star4_Click(object sender, EventArgs e)
         {
             pb_star5.Image = Resources.white_star;
@@ -39,7 +37,6 @@ namespace DPCMS
             pb_star4.Image = Resources.yellow_star;
             
         }
-
         private void pb_star3_Click(object sender, EventArgs e)
         {
             pb_star4.Image = Resources.white_star;
@@ -49,7 +46,6 @@ namespace DPCMS
             pb_star3.Image = Resources.yellow_star;
             
         }
-
         private void pb_star2_Click(object sender, EventArgs e)
         {
             pb_star3.Image = Resources.white_star;
@@ -59,7 +55,6 @@ namespace DPCMS
             pb_star2.Image = Resources.yellow_star;
             
         }
-
         private void pb_star1_Click(object sender, EventArgs e)
         {
             pb_star2.Image = Resources.white_star;
@@ -69,12 +64,6 @@ namespace DPCMS
             pb_star1.Image = Resources.yellow_star;
             
         }
-
-        private void txtcomment_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
             try

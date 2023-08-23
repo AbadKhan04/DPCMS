@@ -11,17 +11,15 @@ using System.Windows.Forms;
 
 namespace DPCMS
 {
-    public partial class taxi : Form, login
+    public partial class taxi : Form
     {
         DPCMS_CONNECTION connection = DPCMS_CONNECTION.getinst();
+
         public taxi()
         {
             InitializeComponent();
             button4.Enabled = false;
         }
-
-        //int user_id;
-        //string username;
 
         //Applying State Pattern (Behaverial Pattern)
         //The State design pattern allows an object to
@@ -31,12 +29,6 @@ namespace DPCMS
         ContextOfState Context = new ContextOfState();
         StartState startstate = new StartState();
         StopState stopstate = new StopState();
-
-        private void Cabi_Load(object sender, EventArgs e)
-        {
-
-        }
-        
 
         public void setDGV()
         {
@@ -51,83 +43,6 @@ namespace DPCMS
             connection.connect_close();
 
         }
-        public void openform()
-        {
-            this.Show();
-        }
-
-        public void getUserInfo()
-        {
-            throw new NotImplementedException();
-        }
-
-        //private void button1_Click(object sender, EventArgs e)
-        //{
-        //    if (btnStatus.Text == "Turn on Cabi Mode")
-        //    {
-        //        Context.setState(startstate);
-        //        State a = Context.getState();
-
-        //        if (a.getState() == 1)
-        //        { 
-        //            label2.Text = "Online";
-        //        btnStatus.Text = "Turn off Cabi Mode";
-        //        btnPassenger.Text = "Check Rides Requests";
-        //        dataGridView1.DataSource = null;
-        //        dataGridView1.Refresh();
-        //        }
-
-
-        //    }
-        //    else
-        //    {
-        //        Context.setState(stopstate);
-        //        State a = Context.getState();
-
-        //        if (a.getState() == 0)
-        //        { label2.Text = "Offline";
-        //        btnStatus.Text = "Turn on Cabi Mode";
-        //        btnPassenger.Text = "Peek Passengers Traffic";
-        //        button3.Enabled = false;
-        //        dataGridView1.DataSource = null;
-        //        dataGridView1.Refresh();
-
-        //        }
-
-
-        //    }
-        //}
-
-        //private void button2_Click(object sender, EventArgs e)
-        //{
-        //    //APPLYING STRATIGY PATTERN (BEHVAROL PATTERN)
-
-
-        //    if (label2.Text == "Online")
-        //    {
-        //        ContextStratigy cs = new ContextStratigy(new Online());
-        //        int status_checker = cs.execute_stratigy();
-        //        setDGV();
-        //        if (status_checker == 1)
-        //        {
-        //            button4.Enabled = true;
-        //        }
-        //    }
-        //    else if (label2.Text == "Offline")
-        //    {
-        //        ContextStratigy cs = new ContextStratigy(new Offline());
-        //        int status_checker = cs.execute_stratigy();
-        //        setDGV();
-        //        if (status_checker == 0)
-        //        {
-        //            button4.Enabled = false;
-        //        }
-        //    }
-        //    else
-        //    {
-
-        //    }
-        //}
 
         private void btnStatus_Click(object sender, EventArgs e)
         {
@@ -165,8 +80,6 @@ namespace DPCMS
 
         private void btnPassenger_Click(object sender, EventArgs e)
         {
-            //APPLYING STRATIGY PATTERN (BEHVAROL PATTERN)
-
 
             if (label2.Text == "Online")
             {
@@ -197,7 +110,7 @@ namespace DPCMS
         private string destination = "";
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0) // Ensure a valid row is clicked
+            if (e.RowIndex >= 0)
             {
                 DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
                 pickup = row.Cells["pickup"].Value.ToString();
@@ -233,7 +146,7 @@ namespace DPCMS
         private DataGridViewRow selectedRow = null;
         private void dataGridView1_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (e.RowIndex >= 0 && e.Button == MouseButtons.Left) 
+            if (e.RowIndex >= 0 && e.Button == MouseButtons.Left)
             {
                 selectedRow = dataGridView1.Rows[e.RowIndex];
             }

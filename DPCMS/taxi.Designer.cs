@@ -156,7 +156,7 @@
             this.Controls.Add(this.lblStatus);
             this.Name = "taxi";
             this.Text = "Cabi";
-            this.Load += new System.EventHandler(this.Cabi_Load);
+            //this.Load += new System.EventHandler(this.Cabi_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
