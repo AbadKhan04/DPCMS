@@ -87,7 +87,7 @@
             this.txtcomment.Name = "txtcomment";
             this.txtcomment.Size = new System.Drawing.Size(350, 117);
             this.txtcomment.TabIndex = 9;
-            this.txtcomment.TextChanged += new System.EventHandler(this.txtcomment_TextChanged);
+            //this.txtcomment.TextChanged += new System.EventHandler(this.txtcomment_TextChanged);
             // 
             // pb_star1
             // 

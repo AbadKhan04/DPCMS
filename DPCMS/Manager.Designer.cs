@@ -77,7 +77,8 @@
             this.comboBox.FormattingEnabled = true;
             this.comboBox.Items.AddRange(new object[] {
             "View Users",
-            "View Drivers"});
+            "View Drivers",
+            "View Bookings"});
             this.comboBox.Location = new System.Drawing.Point(35, 55);
             this.comboBox.Name = "comboBox";
             this.comboBox.Size = new System.Drawing.Size(126, 27);
@@ -150,7 +151,6 @@
             this.txtmail.Size = new System.Drawing.Size(140, 20);
             this.txtmail.TabIndex = 12;
             this.txtmail.Text = "E- mail";
-            //this.txtmail.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
             // txtlicense
             // 

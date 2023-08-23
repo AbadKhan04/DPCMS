@@ -18,13 +18,111 @@ namespace DPCMS
     {
         DPCMS_CONNECTION connection = DPCMS_CONNECTION.getinst();
         private string selectedTable;
+        private DatabaseFacade databaseFacade;
 
         //ID variable used in Updating and Deleting Record  
         int ID = 0;
         public Manager()
         {
             InitializeComponent();
-            setDGV("staff_registration"); 
+            setDGV("staff_registration");
+            databaseFacade = new DatabaseFacade();
+        }
+
+        //APPLYING FACADE PATTERN (structural pattern) TO INSERT UPDATE AND DELETE
+        //therefore it hides the complexities of the system from the client
+        class DatabaseFacade
+        {
+            private DPCMS_CONNECTION connection;
+
+            public DatabaseFacade()
+            {
+                connection = DPCMS_CONNECTION.getinst();
+            }
+
+            public void Insert(string query, string firstName, string lastName, string email, string password, string cnic, string phone, string address, string license, string designation)
+            {
+                try
+                {
+                    connection.insert_Connection_string("server=DESKTOP-NAO1922;Database=DP_Cap;Integrated Security=True");
+                    connection.connect_open();
+                    Console.WriteLine("Connected to the database-Manager.");
+                    
+                    using (SqlCommand cmd = new SqlCommand(query, connection.con))
+                    {
+                        cmd.Parameters.AddWithValue("@firstname", firstName);
+                        cmd.Parameters.AddWithValue("@lastname", lastName);
+                        cmd.Parameters.AddWithValue("@email", email);
+                        cmd.Parameters.AddWithValue("@pasword", password);
+                        cmd.Parameters.AddWithValue("@CNIC", cnic);
+                        cmd.Parameters.AddWithValue("@phone", phone);
+                        cmd.Parameters.AddWithValue("@addres", address);
+                        cmd.Parameters.AddWithValue("@license", license);
+                        cmd.Parameters.AddWithValue("@designation", designation);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                    connection.connect_close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+
+            public void Update(string query, int staffId, string firstName, string lastName, string email, string password, string cnic, string phone, string address, string license, string designation)
+            {
+                try
+                {
+                    connection.insert_Connection_string("server=DESKTOP-NAO1922;Database=DP_Cap;Integrated Security=True");
+                    connection.connect_open();
+                    Console.WriteLine("Connected to the database-Manager.");
+
+                    using (SqlCommand cmd = new SqlCommand(query, connection.con))
+                    {
+                        cmd.Parameters.AddWithValue("@staff_id", staffId);
+                        cmd.Parameters.AddWithValue("@firstname", firstName);
+                        cmd.Parameters.AddWithValue("@lastname", lastName);
+                        cmd.Parameters.AddWithValue("@email", email);
+                        cmd.Parameters.AddWithValue("@pasword", password);
+                        cmd.Parameters.AddWithValue("@CNIC", cnic);
+                        cmd.Parameters.AddWithValue("@phone", phone);
+                        cmd.Parameters.AddWithValue("@addres", address);
+                        cmd.Parameters.AddWithValue("@license", license);
+                        cmd.Parameters.AddWithValue("@designation", designation);
+
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    connection.connect_close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+
+            public void Delete(string query, int staffId)
+            {
+                try
+                {
+                    connection.insert_Connection_string("server=DESKTOP-NAO1922;Database=DP_Cap;Integrated Security=True");
+                    connection.connect_open();
+                    Console.WriteLine("Connected to the database-Manager.");
+
+                    using (SqlCommand cmd = new SqlCommand(query, connection.con))
+                    {
+                        cmd.Parameters.AddWithValue("@staff_id", staffId);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    connection.connect_close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -38,9 +136,11 @@ namespace DPCMS
             {
                 setDGV("user_registration");
             }
-            //add booking table also
+            else if (selectedTable == "View Bookings")
+            {
+                setDGV("booking");
+            }
         }
-
 
         public void setDGV(string tableName)
         {
@@ -49,10 +149,10 @@ namespace DPCMS
                 connection.insert_Connection_string("server=DESKTOP-NAO1922;Database=DP_Cap;Integrated Security=True");
 
                 connection.connect_open();
-                SqlDataAdapter da = new SqlDataAdapter($"SELECT * FROM {tableName}", connection.con);
+                SqlDataAdapter da = new SqlDataAdapter($"SELECT * FROM [{tableName}]", connection.con);
                 DataSet ds = new DataSet();
                 da.Fill(ds, tableName);
-                dataGridView1.DataSource = ds.Tables[tableName];
+                dataGridView1.DataSource = ds.Tables[0];
                 ds.Tables.Clear();
                 connection.connect_close();
             }
@@ -84,160 +184,51 @@ namespace DPCMS
         {
             this.Show();
         }
-        //APPLYING FACADE PATTERN (structural pattern) TO INSERT UPDATE AND DELETE
-        //therefore it hides the complexities of the system from the client
+
         private void btnInsert_Click(object sender, EventArgs e)
         {
-            try
-            {
-                connection.insert_Connection_string("server=DESKTOP-NAO1922;Database=DP_Cap;Integrated Security=True");
-                connection.connect_open();
-                Console.WriteLine("Connected to the database-Manager.");
+            string insertQuery = "INSERT INTO [staff_registration] values ('" + txtfname.Text + "','" + txtlname.Text + "','" + txtmail.Text + "','" + txtpass.Text + "','" + txtcnic.Text + "','" + txtnumber.Text + "','" + txtaddress.Text + "','" + txtlicense.Text + "','" + comBrole.SelectedItem.ToString() + "')";
+            string firstName = txtfname.Text;
+            string lastName = txtlname.Text;
+            string email = txtmail.Text;
+            string password = txtpass.Text;
+            string cnic = txtcnic.Text;
+            string phone = txtnumber.Text;
+            string address = txtaddress.Text;
+            string license = txtlicense.Text;
+            string designation = comBrole.SelectedItem.ToString();
 
-
-                string insert = "INSERT INTO staff_registration values ('" + txtfname.Text + "','" + txtlname.Text + "','" + txtmail.Text + "','" + txtpass.Text + "','" + txtcnic.Text + "','" + txtnumber.Text + "','" + txtaddress.Text + "','" + txtlicense.Text + "','" + comBrole.SelectedItem.ToString() + "')";
-                
-
-                if (selectedTable == "View Drivers")
-                {
-                    if (txtfname.Text != "" && txtpass.Text != "")
-                    {
-                        using (SqlCommand cmd = new SqlCommand(insert, connection.con))
-                        {
-                            cmd.Parameters.AddWithValue("@firstname", txtfname.Text);
-                            cmd.Parameters.AddWithValue("@lastname", txtlname.Text);
-                            cmd.Parameters.AddWithValue("@email", txtmail.Text );
-                            cmd.Parameters.AddWithValue("@pasword",txtpass.Text);
-                            cmd.Parameters.AddWithValue("@CNIC", txtcnic.Text);
-                            cmd.Parameters.AddWithValue("@phone", txtnumber.Text);
-                            cmd.Parameters.AddWithValue("@addres", txtaddress.Text);
-                            cmd.Parameters.AddWithValue("@license", txtlicense.Text);
-                            cmd.Parameters.AddWithValue("@designation", comBrole.SelectedItem.ToString());
-                            cmd.ExecuteNonQuery();
-                            connection.connect_close();
-                            MessageBox.Show("Record Inserted Successfully");
-                            setDGV(selectedTable);
-                            setDGV("staff_registration");
-                            ClearData();
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Please Provide Details!");
-                    }
-                }
-                else if (selectedTable == "View Users")
-                {
-                    // Insert into user_registration
-                    MessageBox.Show("Insert operation is not allowed for Users.");
-                    return;
-                }
-
-                connection.connect_close();
-                setDGV(selectedTable);
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            databaseFacade.Insert(insertQuery, firstName, lastName, email, password, cnic, phone, address, license, designation);
+            // Refresh the DataGridView data after inserting
+            setDGV(selectedTable);
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
+            string updateQuery = "UPDATE [staff_registration] set firstname=@firstname,lastname=@lastname, email=@email,pasword=@pasword, CNIC=@CNIC,phone=@phone,addres=@addres,license=@license, designation=@designation  where staff_id=@staff_id";
+            int staffId = ID;
+            string firstName = txtfname.Text;
+            string lastName = txtlname.Text;
+            string email = txtmail.Text;
+            string password = txtpass.Text;
+            string cnic = txtcnic.Text;
+            string phone = txtnumber.Text;
+            string address = txtaddress.Text;
+            string license = txtlicense.Text;
+            string designation = comBrole.SelectedItem.ToString();
 
-            try
-            {
-                connection.insert_Connection_string("server=DESKTOP-NAO1922;Database=DP_Cap;Integrated Security=True");
-
-                connection.connect_open();
-                string update = "UPDATE staff_registration set firstname=@firstname,lastname=@lastname, email=@email,pasword=@pasword, CNIC=@CNIC,phone=@phone,addres=@addres,license=@license, designation=@designation  where staff_id=@staff_id";
-
-                if (selectedTable == "View Drivers")
-                {
-                    if (txtfname.Text != "" && txtpass.Text != "")
-                    {
-                        using (SqlCommand cmd = new SqlCommand(update, connection.con))
-                        {
-                            cmd.Parameters.AddWithValue("@staff_id", ID);
-                            cmd.Parameters.AddWithValue("@firstname", txtfname.Text);
-                            cmd.Parameters.AddWithValue("@lastname", txtlname.Text);
-                            cmd.Parameters.AddWithValue("@email", txtmail.Text);
-                            cmd.Parameters.AddWithValue("@pasword", txtpass.Text);
-                            cmd.Parameters.AddWithValue("@CNIC", txtcnic.Text);
-                            cmd.Parameters.AddWithValue("@phone", txtnumber.Text);
-                            cmd.Parameters.AddWithValue("@addres", txtaddress.Text);
-                            cmd.Parameters.AddWithValue("@license", txtlicense.Text);
-                            cmd.Parameters.AddWithValue("@designation", comBrole.SelectedItem.ToString());
-                            cmd.ExecuteNonQuery();
-                            connection.connect_close();
-                            MessageBox.Show("Record Updated Successfully");
-                            //setDGV("driver_registration");
-                            ClearData();
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Please Select Record to Update");
-                    }
-
-                }
-                else if (selectedTable == "View Users")
-                {
-                    // Update user_registration
-                }
-
-                connection.connect_close();
-                setDGV(selectedTable);
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-
+            databaseFacade.Update(updateQuery, staffId, firstName, lastName, email, password, cnic, phone, address, license, designation);
+            // Refresh the DataGridView data after inserting
+            setDGV(selectedTable);
         }
         private void button3_Click_1(object sender, EventArgs e)
         {
-            try
-            {
-                connection.insert_Connection_string("server=DESKTOP-NAO1922;Database=DP_Cap;Integrated Security=True");
+            string deleteQuery = "DELETE [staff_registration] where staff_id=@staff_id";
+            int staffId = ID;
 
-                connection.connect_open();
-                string delete = "DELETE staff_registration where staff_id=@staff_id";
-                if (selectedTable == "View Drivers")
-                {
-                    if (ID != 0)
-                    {
-                        using (SqlCommand cmd = new SqlCommand(delete, connection.con))
-                        {
-                            cmd.Parameters.AddWithValue("@staff_id", ID);
-                            cmd.ExecuteNonQuery();
-                            connection.connect_close();
-                            MessageBox.Show("Record Deleted Successfully");
-                            //setDGV("driver_registration");
-                            ClearData();
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Please Select Record to Delete");
-                    }
-
-
-                }
-                else if (selectedTable == "View Users")
-                {
-                    MessageBox.Show("Delete operation is not allowed for Users.");
-                    return;
-                }
-                connection.connect_close();
-                setDGV(selectedTable);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            databaseFacade.Delete(deleteQuery, staffId);
+            // Refresh the DataGridView data after inserting
+            setDGV(selectedTable);
         }
 
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
