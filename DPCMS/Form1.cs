@@ -132,10 +132,7 @@ namespace DPCMS
             {
                 return _driverDesignation;
             }
-
-            // ... other properties and methods specific to driver
         }
-
 
         // User factory implementation
         public class UserFactory : IUserFactory
