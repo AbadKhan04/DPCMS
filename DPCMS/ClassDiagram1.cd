@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DPCMS.Form1" Collapsed="true">
+    <Position X="4.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAQAAACAAABAAAACBEAACAAgYAAgAEGAAAAAAAAA=</HashCode>
+      <FileName>Form1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DPCMS.Registration_Driver" Collapsed="true">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAACAWAJAQAACBAAACAAgAAIggAAgBgBAAAAA=</HashCode>
+      <FileName>Registration_Driver.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DPCMS.Registration" Collapsed="true">
+    <Position X="3.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQBQAACAAAJAQEACBABACAAAADAAAAAAAABAQIAA=</HashCode>
+      <FileName>Registration.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DPCMS.Staff" Collapsed="true">
+    <Position X="7.75" Y="3.5" Width="1.5" />
+    <NestedTypes>
+      <Interface Name="DPCMS.Staff.IAbstraction" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Staff.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Interface>
+      <Interface Name="DPCMS.Staff.IImplementor" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Staff.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Interface>
+      <Class Name="DPCMS.Staff.ManagerImplementor" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Staff.cs</NewMemberFileName>
+        </TypeIdentifier>
+        <Lollipop Position="0.2" />
+      </Class>
+      <Class Name="DPCMS.Staff.DriverImplementor" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Staff.cs</NewMemberFileName>
+        </TypeIdentifier>
+        <Lollipop Position="0.2" />
+      </Class>
+      <Class Name="DPCMS.Staff.Employ" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Staff.cs</NewMemberFileName>
+        </TypeIdentifier>
+        <Lollipop Position="0.2" />
+      </Class>
+      <Class Name="DPCMS.Staff.Taxi" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Staff.cs</NewMemberFileName>
+        </TypeIdentifier>
+        <Lollipop Position="0.2" />
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAACAAAACAAAYAAAAAGAAAAAAAAA=</HashCode>
+      <FileName>Staff.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DPCMS.User" Collapsed="true">
+    <Position X="4.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAEAAACAAAJQQIACBAAACAAAAAAAAAAAAIAUAAAA=</HashCode>
+      <FileName>User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DPCMS.taxi" Collapsed="true">
+    <Position X="1.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAgAAAAAiAAAhAAIACBAAACIUhgAAAIAAAYBAEAAAI=</HashCode>
+      <FileName>taxi.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DPCMS.Manager" Collapsed="true">
+    <Position X="9.5" Y="5.25" Width="1.5" />
+    <NestedTypes>
+      <Class Name="DPCMS.Manager.DatabaseFacade" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Manager.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>BAAwQAQABCEggBAQoACBQBACAigACCACAIABggEAAAA=</HashCode>
+      <FileName>Manager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Windows.Forms.Form" Collapsed="true">
+    <Position X="11.25" Y="0.75" Width="1.5" />
+    <NestedTypes>
+      <Class Name="System.Windows.Forms.Form.ControlCollection" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

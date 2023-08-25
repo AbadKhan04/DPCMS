@@ -14,7 +14,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace DPCMS
 {
-    public partial class Manager : Form ,DecisionAPI
+    public partial class Manager : Form
     {
         DPCMS_CONNECTION connection = DPCMS_CONNECTION.getinst();
         private string selectedTable;
@@ -47,7 +47,7 @@ namespace DPCMS
                     connection.insert_Connection_string("server=DESKTOP-NAO1922;Database=DP_Cap;Integrated Security=True");
                     connection.connect_open();
                     Console.WriteLine("Connected to the database-Manager.");
-                    
+
                     using (SqlCommand cmd = new SqlCommand(query, connection.con))
                     {
                         cmd.Parameters.AddWithValue("@firstname", firstName);
@@ -240,11 +240,11 @@ namespace DPCMS
 
                 if (selectedTable == "View Drivers")
                 {
-                   
+
                 }
                 else if (selectedTable == "View Users")
                 {
-                   
+
                 }
                 connection.connect_close();
                 setDGV(selectedTable);
